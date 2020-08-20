@@ -1,0 +1,48 @@
+\documentclass{book} 
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{snakes}
+\usetikzlibrary{decorations.pathmorphing}
+
+\hypersetup{
+	colorlinks,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=black,
+	urlcolor=black
+}
+
+\title{Solutions of Introduction to Algorithms: A Creative Approach}
+\author{Saman Saadi}
+\date{} 
+
+\begin{document}
+	\frontmatter
+	\maketitle
+%	\newpage
+	\tableofcontents
+	\mainmatter
+	\chapter{Mathematical Induction}
+	\section{Counting Regions in the Plane}
+	A set of lines in the plane is said to be in \textbf{general position} if no two lines are parallel and no three lines intersect at a common point.
+	\paragraph{Guess:} Adding one more line to $n - 1$ lines in general position in the plane \textbf{increases} the number of regions by $n$. In other words $T(n) = T(n - 1) + n$.
+	\par The base cases is trivial
+	\begin{itemize}
+		\item $T(0) = 1$
+		\item $T(1) = T(0) + 1 = 2$
+		\item $T(2) = T(1) + 2 = 2 + 2 = 4$
+		\item $T(3) = T(2) + 3 = 4 + 3 = 7$
+	\end{itemize}
+	So we assume $T(n)$ is correct, now we want to prove $T(n + 1)$ is also correct. Let's remove line $n^{th}$. According to induction hypothesis Adding line $(n+1)^{th}$ add $n$ new regions. If we add line $n^{th}$ again, it intersect with line $(n+1)^{th}$ at exactly one point $p$. This point is located in region $R$.
+	\par In the absence of line $n^{th}$, line $(n+1)^{th}$ adds only one new region when it passes $R$. But in presence of line $n^{th}$, it adds 2 new regions when it passes $R$. For other regions line $(n+1)^{th}$ adds $n - 1$ new regions with or without the presence of line $n^{th}$. So line $(n+1)^{th}$ adds $n - 1 + 2 = n + 1$ new regions when $n^{th}$ is presented.
+\end{document}
