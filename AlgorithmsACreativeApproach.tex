@@ -45,4 +45,5 @@
 	\end{itemize}
 	So we assume $T(n)$ is correct, now we want to prove $T(n + 1)$ is also correct. Let's remove line $n^{th}$. According to induction hypothesis Adding line $(n+1)^{th}$ add $n$ new regions. If we add line $n^{th}$ again, it intersect with line $(n+1)^{th}$ at exactly one point $p$. This point is located in region $R$.
 	\par In the absence of line $n^{th}$, line $(n+1)^{th}$ adds only one new region when it passes $R$. But in presence of line $n^{th}$, it adds 2 new regions when it passes $R$. For other regions line $(n+1)^{th}$ adds $n - 1$ new regions with or without the presence of line $n^{th}$. So line $(n+1)^{th}$ adds $n - 1 + 2 = n + 1$ new regions when $n^{th}$ is presented.
+	\par So instead of proving the number of regions by adding a new line, we proved how many new regions are added when we have line $(n + 1)^{th}$. So It's easy to prove the number of regions. Starting with one line we have $2 + 2 + 3 + 4 + \dots + n = 1 + 1 + 2 + \dots + n = 1 + \frac{n \times (n + 1)}{2}$.
 \end{document}
