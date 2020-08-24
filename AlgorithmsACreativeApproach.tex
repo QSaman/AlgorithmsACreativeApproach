@@ -46,4 +46,18 @@
 	So we assume $T(n)$ is correct, now we want to prove $T(n + 1)$ is also correct. Let's remove line $n^{th}$. According to induction hypothesis Adding line $(n+1)^{th}$ add $n$ new regions. If we add line $n^{th}$ again, it intersect with line $(n+1)^{th}$ at exactly one point $p$. This point is located in region $R$.
 	\par In the absence of line $n^{th}$, line $(n+1)^{th}$ adds only one new region when it passes $R$. But in presence of line $n^{th}$, it adds 2 new regions when it passes $R$. For other regions line $(n+1)^{th}$ adds $n - 1$ new regions with or without the presence of line $n^{th}$. So line $(n+1)^{th}$ adds $n - 1 + 2 = n + 1$ new regions when $n^{th}$ is presented.
 	\par So instead of proving the number of regions by adding a new line, we proved how many new regions are added when we have line $(n + 1)^{th}$. So It's easy to prove the number of regions. Starting with one line we have $2 + 2 + 3 + 4 + \dots + n = 1 + 1 + 2 + \dots + n = 1 + \frac{n \times (n + 1)}{2}$.
+	
+	\section{Euler's Formula}
+	Consider a connected planar map with $V$ vertices, $E$ edges and $F$ faces. A face is an enclosed region. The outside region is counted as one face. So for example, a square has four vertices, four edges and two faces.
+	\begin{itemize}
+		\item[\textbf{Theorem}] The number of vertices ($V$), edges ($E$), and faces ($F$) in an arbitrary connected planar map are related by the formula $V + F = E + 2$.
+		\item[\textbf{Proof}] It's clear the formula doesn't hold if the planar map is not connected. So we cannot just simply remove an edge. So the base case should be a tree.
+		\begin{itemize}
+			\item[\textbf{Theorem}] In a tree with $V$ vertices, the number of edges $E$ is $E = V - 1$.
+			\item[\textbf{Proof}] The base case is trivial. Suppose it's true for all trees with $V$ vertices. Now consider a tree with $V + 1$ vertices. There should be at least one vertex connected to only one edge. If we don't have such a vertex, then for every vertex $v$, it should have at least two edges $(v, u_1)$ and $(v, u_2)$. Now consider another vertex $u$. According to tree definition, there should be a path from $u_1$ to $u$ and from $u$ to $u_2$. It implies a cycle which is a contradiction. So we have at least one vertex that is connected to only one edge. If we remove that vertex and that edge, the tree is still connected so we can use hypothesis so $E = V - 1$. So by adding one vertex and one edge, the formula is also correct for $V + 1$ vertices.
+		\end{itemize}
+			So the base case is tree. A tree only has one face. So we have $V + 1 = V - 1 + 2$. 
+			\par Now consider a planar map which is not tree. In other words, it has at least one cycle. If we remove one edge from that cycle, It's still connected. By removing that edge, the inner face will be combined with outer face. So the number of faces also reduced by 1. So the formula is correct. The textbook choose faces as induction parameter but it actually remove an edge. So I don't see any different between choosing edge or face as induction parameter.
+	\end{itemize}
+	
 \end{document}
