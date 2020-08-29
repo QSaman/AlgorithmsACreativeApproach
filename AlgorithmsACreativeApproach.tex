@@ -10,6 +10,7 @@
 \usepackage{amssymb}
 
 \usepackage{tikz}
+\usepackage{marvosym}
 \usetikzlibrary{arrows}
 \usetikzlibrary{snakes}
 \usetikzlibrary{decorations.pathmorphing}
@@ -58,6 +59,63 @@
 		\end{itemize}
 			So the base case is tree. A tree only has one face. So we have $V + 1 = V - 1 + 2$. 
 			\par Now consider a planar map which is not tree. In other words, it has at least one cycle. If we remove one edge from that cycle, It's still connected. By removing that edge, the inner face will be combined with outer face. So the number of faces also reduced by 1. So the formula is correct. The textbook choose faces as induction parameter but it actually remove an edge. So I don't see any different between choosing edge or face as induction parameter.
+	\end{itemize}
+	\section{Website Questions}
+	\subsection{SRM 784 - Division II, Level One: Scissors}
+	You are in charge of $N$ other people. You have a pair of scissors. But none of your $N$ helpers do. 
+	\par You purchased $N$ pairs of scissors which are wrapped in plastic. Getting scissors out of the plastic wrap requires having another pair of scissors (that's not in plastic) and it takes 10 seconds. Assume that everything other than opening the packages happens instantly.
+	\par Calculate and return the shortest amount of time (in seconds) in which it is possible to release all the scissors from their plastic wraps.
+	\par For more information visit this \href{https://community.topcoder.com/stat?c=problem_statement&pm=16110}{website}.
+	\begin{itemize}
+		\item[\textbf{Solution}] Intuitively we can use a binary tree. Each node has out-degree 0 (leaf) or 2 (node). For example for $N = 4$, we show the pair of scissors $1\le i \le N$ as $i$. The first pair of scissors which are unwrapped is shown as $0$:
+
+        \begin{figure*}[h!]
+            \centering
+            \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+            \tikzset{vertex/.style = {shape=circle,draw,scale=0.7}}
+                \node[vertex] (a){$0$ \LeftScissors $1$}
+                    child {node[vertex] (b) {$0$ \LeftScissors $2$}
+                            child {node[vertex] (d) {$0$ \LeftScissors $4$}
+                                child {node[vertex] (h) {$0$}}
+                                child {node[vertex] (i) {$4$}}
+                                }
+                            child {node[vertex] (e) {$2$}}
+                        }
+                    child {node[vertex] (c) {$1$ \LeftScissors $3$}
+                        child {node[vertex] (f) {$1$}}
+                        child {node[vertex] (g) {$3$}}
+                        }
+                    ;
+            \end{tikzpicture}
+        \end{figure*}
+    	\FloatBarrier
+    	As you can see at the beginning we only have a pair of scissors $0$. Using it we unwrap the pair of scissors $1$. In the next step we unwrap $2$ with $0$ and $3$ with $1$ simultaneously. So for $N=4$, the answer is $h \times 10 = 3 \times 10 = 30$. $h$ is the height of the tree. We can solve it using mathematical induction.
+    	\begin{itemize}
+    		\item[\textbf{Hypothesis:}] We know the solution for $n < N$ pairs of wrapped scissors.
+    		\item[\textbf{Proof:}] Suppose $n = N$. For an optimal solution we want to use as many pairs of scissors as possible to unwrap the remaining ones. Suppose $T(n)$ is the minimum time required to unwrap $n$ pairs of scissors. Of course after we do that we have $n + 1$ pairs of scissors (remember you have a pair of unwrapped scissors). For edge cases we consider two possible scenarios:
+    		\begin{enumerate}
+    			\item $n = N = 2k + 1$ We use the hypothesis and find the answer for the first $k$ wrapped pairs of scissors ($T(k)$). Then using those $k$ ones plus the first one we can unwrapped the remaining $k +1$ ones:
+    			\begin{equation*}
+    				T(2k + 1) = T(k) + 10
+    			\end{equation*}
+    			\item $n = N = 2k$ We use the hypothesis and unwrapped the first $k$ pairs of scissors. Besides those $k$ pairs of scissors, we have another one which is unwrapped from the beginning but we only have $k$ pairs of wrapped scissors. We don't use one of those $k + 1$ ones:
+    			\begin{equation*}
+    				T(2k) = T(k) + 10
+    			\end{equation*}
+    			Note that the following equation is not always correct:
+    			\begin{equation*}
+    				T(2k) = T(k - 1) + 10 \times 2
+    			\end{equation*}
+    			Because by unwrapping the first $k - 1$ ones, we have $k$ pairs of unwrapped scissors and $k + 1$ wrapped ones. On the other hand, $T(k) = T(k - 1) \lor T(k) = T(k - 1) + 10$. So $T(2k) = T(k) + 10$ finds the optimal solution.
+    		\end{enumerate}
+    		We can squeeze both equations into one:
+    		\begin{equation*}
+    			T(n) = \begin{cases}
+    				T(\lfloor \frac{n}{2} \rfloor) + 10 & n > 0 \\
+    				0 & n = 0
+    			\end{cases}
+    		\end{equation*}    	
+    	\end{itemize}	
 	\end{itemize}
 	
 \end{document}
