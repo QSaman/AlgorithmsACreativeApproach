@@ -67,7 +67,7 @@
 	\par Calculate and return the shortest amount of time (in seconds) in which it is possible to release all the scissors from their plastic wraps.
 	\par For more information visit this \href{https://community.topcoder.com/stat?c=problem_statement&pm=16110}{website}.
 	\begin{itemize}
-		\item[\textbf{Solution}] There are two methods which are similar to each other. Note that how using different approach to break down the problem can make it easier to understand.
+		\item[\textbf{Solution}] There are two methods which are similar to each other. Note that how using different approaches to break down the problem can make it easier to understand.
 		\begin{itemize}
 			\item[\textbf{Method 1}] Suppose that we have $k$ knives:
 			\begin{itemize}
@@ -77,7 +77,7 @@
 					T(n, k) = \begin{cases}
 						T(n - k, 2k) + 10 & k \le n \land n \ne 0 \\
 						0 & n = 0 \\
-						T(0, k + n) & k > n \land n \ne 0
+						T(0, k + n) + 10 & k > n \land n \ne 0
 					\end{cases}
 				\end{equation*}
                 The solution is $T(N, 1)$. Because at the beginning we only have one unwrapped knife.
