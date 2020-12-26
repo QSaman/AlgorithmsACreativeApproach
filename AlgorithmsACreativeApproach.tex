@@ -60,6 +60,34 @@
 			So the base case is tree. A tree only has one face. So we have $V + 1 = V - 1 + 2$. 
 			\par Now consider a planar map which is not tree. In other words, it has at least one cycle. If we remove one edge from that cycle, It's still connected. By removing that edge, the inner face will be combined with outer face. So the number of faces also reduced by 1. So the formula is correct. The textbook choose faces as induction parameter but it actually remove an edge. So I don't see any different between choosing edge or face as induction parameter.
 	\end{itemize}
+	\section{Gray Codes}
+	Gray codes are strings of 0s and 1s in such a way that two neighbours only differ in one digit. For example 100 and 101. If the last string respect the condition with the first one, the code is closed; otherwise it's open. For example 00, 01, 11 and 10 is closed but 00, 01, 11 is open. 
+	\begin{itemize}
+		\item[\textbf{Hypothesis:}] There exists gray codes of length $\lceil \log_2{k} \rceil$ for all values $k < n$. If $k$ is even, then the code is closed; if $k$ is odd, then the code is open.
+		\item[\textbf{Proof:}] There are two scenarios:
+		\begin{itemize}
+			\item If $n = 2m$ We use the hypothesis and assume $s_1, s_2, \dots, s_m$ are gray codes. It can be open or closed. We can create gray codes of size $n$ which is closed like $0s_1, 0s_2, \dots, 0s_m, 1s_m, \dots, 1s_2, 1s_1$.
+			\par Based on the hypothesis the length of $s_i$ ($1 \le i \le m$) is $\lceil \log_2{m} \rceil$. So the length of $0s_i$ is $\lceil \log_2{m} \rceil + 1$:
+			\begin{equation*}
+				\begin{split}
+					\lceil \log_2{m} \rceil + 1 &= \lceil log_2{\frac{n}{2}} +1 \rceil \\
+					&= \lceil \log_2{n} - log_2{2} + 1 \rceil \\
+					&= \lceil \log_2{n} \rceil
+				\end{split}
+			\end{equation*}
+			\item If $n = 2m + 1$  We use the hypothesis and assume $s_1, s_2, \dots, s_m, s_{m + 1}$ are gray codes. It can be opne or closed. We can create gray codes of size $n$ which is open like $0s_1, 0s_2, \dots, 0s_m, 0s_{m + 1}, 1s_{m + 1}, 1s_m, \dots, 1s_2$.
+			\par Based on the hypothesis the length of $s_i$ ($1 \le i \le m + 1$) is $\lceil \log_2{(m + 1)} \rceil$. So the length of $0s_i$ is $\lceil \log_2{(m + 1)} \rceil + 1$:
+			\begin{equation*}
+				\begin{split}
+					\lceil \log_2{(m + 1)} \rceil + 1 &= \lceil log_2{(\frac{n - 1}{2} + 1)} +1 \rceil \\
+					&= \lceil \log_2{(\frac{n + 1}{2})} + 1 \rceil \\
+					&= \lceil \log_2{(n + 1)} - log_2{2} + 1 \rceil \\
+					&= \lceil \log_2{(n + 1)} \rceil
+				\end{split}
+			\end{equation*}
+		Since $n$ is odd we have $\lceil \log_2{(n)} \rceil = \lceil \log_2{(n + 1)} \rceil$.
+		\end{itemize}
+	\end{itemize}
 	\section{Website Questions}
 	\subsection{SRM 784 - Division II, Level One: Scissors}
 	You are in charge of $N$ other people. You have a pair of scissors. But none of your $N$ helpers do. 
