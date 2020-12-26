@@ -123,6 +123,32 @@ int main()
   grayCodes(0, n);
 }
 	\end{lstlisting}
+	Note that this is not the exact implementation of the proof. For example for $n = 6$ we have:
+	\begin{equation*}
+		\begin{split}
+			0\ 00 &\rightarrow 0s_1 \\
+			0\ 01 &\rightarrow 1s_2 \\
+			0\ 11 &\rightarrow 1s_3 \\
+			&\vdots \\
+			1\ 11 &\rightarrow 1s_3 \\
+			1\ 10 &\rightarrow 1s_2^{\prime} \\
+			1\ 00 &\rightarrow 1s_1 \\			
+		\end{split}
+	\end{equation*}
+	How this implementation always generate closed gray codes when $n$ is even? Suppose $n = 2m$. We always start with all bits set to zero ($0s_1$). The next code only differs in 1 digit from $0s_1$. The number after arrow is the number of different digits from $0s_1$:
+	\begin{equation*}
+		\begin{split}
+		0s_1 &\rightarrow 0 \\
+		0s_2 &\rightarrow 1 \\
+		0s_3 &\rightarrow 2 \\
+		&\vdots \\
+		0s_m &\rightarrow m - 1 \\
+		1s_m &\rightarrow m \\
+		1s_{m - 1}^{\prime} &\rightarrow m - 1 \\
+		&\vdots \\
+		1s_1^{\prime} &\rightarrow 1
+		\end{split}
+	\end{equation*}
 	\section{Website Questions}
 	\subsection{SRM 784 - Division II, Level One: Scissors}
 	You are in charge of $N$ other people. You have a pair of scissors. But none of your $N$ helpers do. 
