@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{placeins}
 \usepackage{amssymb}
+\usepackage{listings}
 
 \usepackage{tikz}
 \usepackage{marvosym}
@@ -88,6 +89,40 @@
 		Since $n$ is odd we have $\lceil \log_2{(n)} \rceil = \lceil \log_2{(n + 1)} \rceil$.
 		\end{itemize}
 	\end{itemize}
+	The implementation in C++:
+	\begin{lstlisting}[language=c++, frame=single]
+string str;
+void grayCodes(size_t index, size_t listLength)
+{
+  if (listLength == 1)
+  {
+    cout << str << endl;
+    return;
+  }
+  const auto m = listLength / 2;
+  if ((listLength % 2 ) == 0)
+    grayCodes(index + 1, m);
+  else
+    grayCodes(index + 1, m + 1);
+  str[index] = (str[index] == '0' ? '1' : '0');
+  grayCodes(index + 1, m);
+}
+
+int main()
+{
+  const size_t n = 9;
+  const size_t codeLen = [n]()
+  {
+    size_t res = 0;
+    //ceil(lg(m)):
+    for (size_t m = 1; m < n; m *= 2)
+      ++res;
+    return res;
+  }();
+  str = string(codeLen, '0');
+  grayCodes(0, n);
+}
+	\end{lstlisting}
 	\section{Website Questions}
 	\subsection{SRM 784 - Division II, Level One: Scissors}
 	You are in charge of $N$ other people. You have a pair of scissors. But none of your $N$ helpers do. 
