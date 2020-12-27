@@ -167,7 +167,7 @@ int main()
 			\lfloor \log_2{n} \rfloor = r &\implies 2^r \le n < 2^{r + 1}			
 		\end{split}
 	\end{equation*}
-	So for $\lceil \log_2{n} \rceil$ we are looking for the maximum $2^i$ which is smaller than $n$. When we find it the answer is $i + 1$. So in each step we make sure $2^i < n$. So it's safe to assume the the result is at least $i + 1$:
+	So for $\lceil \log_2{n} \rceil$ we are looking for the maximum $2^i$ which is smaller than $n$. When we find it the answer is $i + 1$. In each iteration as long as $2^i < n$, we can assume the result is at least $i + 1$:
 	
 	\begin{lstlisting}[language=C++, frame=single]
   int ceilLogarithm(int n)
@@ -178,7 +178,8 @@ int main()
     return r;
   }
 	\end{lstlisting}
-	For calculating $\lfloor \log_2{n} \rfloor$ we are looking for the minimum $2^i$ which is bigger than $n$. When we find it the answer is $i - 1$:
+	For calculating $\lfloor \log_2{n} \rfloor$ we are looking for the minimum $2^i$ which is bigger than $n$. When we find it the answer is $i - 1$. In each iteration as long as $2^i \le n$, we can assume the result is at least $i$:
+	
 	\begin{lstlisting}[language=C++, frame=single]
   int floorLogarithm(int n)
   {
