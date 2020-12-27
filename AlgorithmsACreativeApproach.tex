@@ -135,20 +135,29 @@ int main()
 			1\ 00 &\rightarrow 1s_1 \\			
 		\end{split}
 	\end{equation*}
-	How this implementation always generate closed gray codes when $n$ is even? Suppose $n = 2m$. We always start with all bits set to zero ($0s_1$). The next code only differs in 1 digit from $0s_1$. The number after arrow is the number of different digits from $0s_1$:
+	How this implementation always generate closed gray codes when $n$ is even? Suppose $n = 2m$. The generated code should have the following structure to consider it as closed:
 	\begin{equation*}
 		\begin{split}
-		0s_1 &\rightarrow 0 \\
-		0s_2 &\rightarrow 1 \\
-		0s_3 &\rightarrow 2 \\
+		0&s_1 \\
+		0&s_2 \\
 		&\vdots \\
-		0s_m &\rightarrow m - 1 \\
-		1s_m &\rightarrow m \\
-		1s_{m - 1}^{\prime} &\rightarrow m - 1 \\
-		&\vdots \\
-		1s_1^{\prime} &\rightarrow 1
+		0&s_m \\ 
+		1&s_m \\
+		1&s_{m - 1}^{\prime} \\
+		&\vdots \\		
+		1&s_2^{\prime} \\
+		1&s_1
 		\end{split}
 	\end{equation*}
+	Suppose $s = (b_{k - 1} \dots b_1 b_0)_2$ represents a code. Based on definition $k = \lceil \log_2{m} \rceil$. For generating $s_1$ to $s_m$ we flip $s$ digits $m - 1$ times. We define $c_i$ as the number of times bit $i$th is flipped. It's obvious that:
+	\begin{equation*}
+		m - 1 = \sum_{i = 0}^{k - 1}{c_i}
+	\end{equation*}
+	For the second half of the list which starts with $1s_m$ we use the same pattern to flip bits exactly $m - 1$ times. So in total we have:
+	\begin{equation*}
+		2 \times (m - 1) = \sum_{i = 0}^{k - 1}{2 \times c_i}
+	\end{equation*}
+	So the $i$th bit is flipped $2 \times c_i$ which is an even number. In other words if we flip the $i$th bit of $s_0$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_m$. If we flip the $i$th bit of $s_m$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_0$.
 	\section{Website Questions}
 	\subsection{SRM 784 - Division II, Level One: Scissors}
 	You are in charge of $N$ other people. You have a pair of scissors. But none of your $N$ helpers do. 
