@@ -87,6 +87,7 @@
 				\end{split}
 			\end{equation*}
 		Since $n$ is odd we have $\lceil \log_2{(n)} \rceil = \lceil \log_2{(n + 1)} \rceil$.
+		\par Note that we cannot find another list that is closed. Because we need to find a list that stars with $0s_1$ and ends with $1s_1$. We generate $s_{i + 1}$ by flipping exactly one bit of $s_i$. So $0s_1$ bits are flipped in total $m$ times to generate $0s_{m + 1}$. Then we put $1s_{m + 1}$ to the second list. We need to flip $1s_{m + 1}$ bits $m - 1$ times to generate the rest of the list. Therefore $s_1$ bits are flipped $m + m - 1 = 2m - 1$ which is an odd number. So it's impossible the list starts with $0s_1$ and ends with $1s_1$.
 		\end{itemize}
 	\end{itemize}
 	The implementation in C++:
@@ -157,7 +158,7 @@ int main()
 	\begin{equation*}
 		2 \times (m - 1) = \sum_{i = 0}^{k - 1}{2 \times c_i}
 	\end{equation*}
-	So the $i$th bit is flipped $2 \times c_i$ which is an even number. In other words if we flip the $i$th bit of $s_0$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_m$. If we flip the $i$th bit of $s_m$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_0$.
+	So the $i$th bit is flipped $2 \times c_i$ which is an even number. In other words if we flip the $i$th bit of $s_0$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_m$. If we flip the $i$th bit of $s_m$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_0$. So the list starts with $0s_1$ and ends with $1s_1$.
 	\section{Website Questions}
 	\subsection{SRM 784 - Division II, Level One: Scissors}
 	You are in charge of $N$ other people. You have a pair of scissors. But none of your $N$ helpers do. 
