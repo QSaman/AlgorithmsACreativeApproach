@@ -159,11 +159,12 @@ int main()
 		2 \times (m - 1) = \sum_{i = 0}^{k - 1}{2 \times c_i}
 	\end{equation*}
 	So the $i$th bit is flipped $2 \times c_i$ which is an even number. In other words if we flip the $i$th bit of $s_0$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_m$. If we flip the $i$th bit of $s_m$, $c_i$ times for all $0 \le i \le k - 1$ we get $s_0$. So the list starts with $0s_1$ and ends with $1s_1$.
+	\subsection{Implementing $\lfloor \log_2{n} \rfloor$ and $\lceil \log_2{n} \rceil$}
 	\par Note that calculating $\lceil \log_2{n} \rceil$ can be tricky. According to definition we have:
 	\begin{equation*}
 		\begin{split}
-			\lfloor \log_2{n} \rfloor = r &\implies 2^r \le n < 2^{r + 1} \\
-			\lceil \log_2{n} \rceil = r &\implies 2^{r - 1} < n \le 2^r
+			\lceil \log_2{n} \rceil = r &\implies 2^{r - 1} < n \le 2^r \\
+			\lfloor \log_2{n} \rfloor = r &\implies 2^r \le n < 2^{r + 1}			
 		\end{split}
 	\end{equation*}
 	So for $\lceil \log_2{n} \rceil$ we are looking for the maximum $2^i$ which is smaller than $n$. When we find it the answer is $i + 1$. So in each step we make sure $2^i < n$. So it's safe to assume the the result is at least $i + 1$:
