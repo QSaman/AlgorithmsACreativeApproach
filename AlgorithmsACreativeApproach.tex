@@ -264,5 +264,21 @@ int main()
 			&= x^n + yz
 		\end{split}
 	\end{equation*}
+
+	\paragraph{Exercise 7}
+	For $n = 1$ The answer is trivial. Assume that it's correct for $2n$. We want to prove that it also corrects for $2n + 2$. Assume that the name of the set is $S$. Based on the problem definition $|S| = n + 2$. We want to prove there exists pair $(a, b)$ in which $a \mod b = 0$. There are three cases:
+	\begin{enumerate}
+		\item All members in $S$ are less than or equal to $2n$. We can use induction hypothesis to find $a$ and $b$.
+		\item Either $2n + 1$ or $2n + 2$ is in $S$. Then we need to choose $n + 1$ numbers from $1$ to $2n$. Based on hypothesis we can find $a$ and $b$.
+		\item Both $2n + 1$ and $2n + 2$ are in $S$. There are two cases:
+		\begin{enumerate}
+			\item $n + 1 \in S$: We can choose $a = 2n + 2$ and $b = n + 1$ and we are done.
+			\item $n + 1 \notin S$: We define a new set:
+			\begin{equation*}
+				S^\prime = \{s \in S\ |\ s \ne 2n + 1 \land s \ne 2n + 2\} \cup \{n + 1\}
+			\end{equation*}
+		Since all members of $S^\prime$ are less than or equal to $2n$ and $|S^\prime| = n + 1$, based on hypothesis there should be $a$ and $b$ in $S^\prime$. It's obvious that $b \le \frac{2n}{2} = n$. If $a = n + 1$, then $2n + 2 \mod b = 0$ so we are done. If $a \ne n + 1$ we are also done.
+		\end{enumerate}
+	\end{enumerate}
 	
 \end{document}
