@@ -280,5 +280,11 @@ int main()
 		Since all members of $S^\prime$ are less than or equal to $2n$ and $|S^\prime| = n + 1$, based on hypothesis there should be $a$ and $b$ in $S^\prime$. It's obvious that $b \le \frac{2n}{2} = n$. If $a = n + 1$, then $2n + 2 \mod b = 0$ so we are done. If $a \ne n + 1$ we are also done.
 		\end{enumerate}
 	\end{enumerate}
+
+	\paragraph{Exercise 14}
+	We assume $a_1 = 1, a_2 = 2, a_3 = 3, a_4 = 4, a_5=5, a_6 = 10, a_7 = 20, \dots$. For $n = 1$ it's trivial. We assume it's correct for $k < n$. There should be at least one $a_i$ in which $n - a_i < a_i$. So we can say $\lfloor \frac{n}{2} \rfloor < a_i \le n$. For $n < 5$ this $a_i$ exists. Since $a_{i + 1} = 2a_i$ for $i \ge 5$, we can be sure there exits at least one $a_i$ in that range. We use hypothesis to find distinct numbers $a_{i_1} + a_{i_2} + \dots + a_{i_m} = n - a_i$. Since $a_i > n - a_i$ it shouldn't be in the list. So we can add it to have $a_{i_1} + a_{i_2} + \dots + a_{i_m} + a_i = n$
+	
+	\paragraph{Exercise 15}
+	The example in problem statement is wrong: $81 = 54 + 24 + 3$. Anyway, we cannot use the proof of exercise 14. Because we assume there exists at least one $\lfloor \frac{n}{2} \rfloor < a_i \le n$ which doesn't exist for $n=48$. On the other hand it's impossible to find an answer for $n=49$.
 	
 \end{document}
