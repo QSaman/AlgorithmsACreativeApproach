@@ -297,13 +297,13 @@ int main()
 	\begin{equation*}
 		A = \{0, 1, 2, 3, 6, 12, 24, 54, 84, 114, \dots\}
 	\end{equation*}
-	We assume the answer is $S(n, k)$ which is the unique list of $a_i \in A$ such a way $S(n, k) = \{a_i \in A\ |\ a_i \ne 0 \land a_i \le k\}$
+	We assume the answer is $S(n, k)$ which is the unique list of $a_i \in A$ in such a way $S(n, k) = \{a_i \in A\ |\ a_i \ne 0 \land a_i \le k\}$
 	\begin{equation*}
 		S(n, k) = \begin{cases}
-			S(n - a_i, a_{i - 1}) \cup \{a_i\} & \max(a_i) \le n \\
+			S(n - a_i, a_{i - 1}) \cup \{a_i\} & \max(a_i) \le k \\
 			\emptyset & k = 0 \lor n = 0
 		\end{cases}
 	\end{equation*}
-	Unlike exercise 14 solution, this one can handle a case like $S(48, 24) = \{\underbrace{1, 2, 3, 6, 12}_{24}, 24\}$
+	The final solution is $S(n, n)$. Unlike exercise 14 solution, this one can handle a case like $S(48, 24) = \{\underbrace{1, 2, 3, 6, 12}_{24}, 24\}$
 	
 \end{document}
