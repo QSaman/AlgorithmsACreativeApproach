@@ -282,7 +282,7 @@ int main()
 	\end{enumerate}
 
 	\paragraph{Exercise 14}
-	We assume $a_1 = 1, a_2 = 2, a_3 = 3, a_4 = 4, a_5=5, a_6 = 10, a_7 = 20, \dots$. For $n = 1$ it's trivial. We assume it's correct for $k < n$. Suppose $S(n)$ has the answer. There should be at least one $a_i$ in which $n - a_i < a_i$ so we are sure $a_i \notin S$: 
+	We assume $a_1 = 1, a_2 = 2, a_3 = 3, a_4 = 4, a_5=5, a_6 = 10, a_7 = 20, \dots$. For $n = 1$ it's trivial. We assume it's correct for $k < n$. Suppose $S(n)$ has the answer. There should be at least one $a_i$ in which $n - a_i < a_i$ so we are sure $a_i \notin S(n - a_i)$: 
 	\begin{equation*}
 		S(n) = \begin{cases}
 			S(n - a_i) \cup \{a_i\} & \lfloor \frac{n}{2} \rfloor < a_i < n \\
