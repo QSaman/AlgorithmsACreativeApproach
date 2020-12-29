@@ -306,4 +306,17 @@ int main()
 	\end{equation*}
 	The final solution is $S(n, n)$. Unlike exercise 14 solution, this one can handle a case like $S(48, 24) = \{\underbrace{1, 2, 3, 6, 12}_{24}, 24\}$
 	
+	\paragraph{Exercise 17}
+	
+	For $n = 3$ it's correct. We need to prove adding 1 line, increase the number of triangles by at least 1. Suppose it's true for $n$ lines. Now consider line $n + 1$. If we remove line $n$, we can use hypothesis so line $n + 1$ create at least one triangle. Consider one of them and we call it $T$. If we add line $n$ again there are three cases:
+	\begin{enumerate}
+		\item line $n$ creates an edge of $T$. So we are done
+		\item Line $n$ does not cross triangle $T$. So line $n + 1$ creates at least  one triangle.
+		\item Line $n$ crosses triangle $T$. Note that since lines are in general positions, when a line crosses a triangle, it intersects with exactly two edges of triangle. There are two cases
+		\begin{enumerate}
+			\item Line $n$ crosses one edge of triangle which line $n + 1$ creates. So $T$ is not a triangle anymore but it contains a smaller triangle $T^\prime$ which consists of lines $n$, $n + 1$ and another line that creates $T$. We call it $n^\prime$. Besides $T$, which is not a triangle anymore, line $n +1$ should create at least another triangle. If we remove $n^\prime$, Both $T$ and $T^\prime$ lose one edge. Based on hypothesis line $n + 1$ should create another triangle named $T^{\prime\prime}$. Since two lines in general positions intersect each other in exactly one point, line $n^\prime$ doesn't cross triangle $T^{\prime\prime}$. So we can safely add it again.
+			\item Line $n$ intersects line $n + 1$ outside $T$. So $n$ crosses two edges of $T$ that $n + 1$ creates none of them. $T$ is not triangle anymore but it contains a smaller triangle $T^\prime$ which $n$ and two other lines that create $T$ also creates $T^\prime$. We call them $n^\prime$ and $n^{\prime\prime}$. If we remove $n^\prime$ or $n^{\prime\prime}$, Both $T$ and $T^\prime$ loses one edge. Based on hypothesis, line $n + 1$ should have another triangle $T^{\prime\prime}$ that neither $n^\prime$ nor $n^{\prime\prime}$ cross it.
+		\end{enumerate}
+	\end{enumerate}
+	
 \end{document}
