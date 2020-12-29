@@ -300,7 +300,7 @@ int main()
 	We assume the answer is $S(n, k)$ which is the unique list of $a_i \in A$ in such a way $S(n, k) = \{a_i \in A\ |\ a_i \ne 0 \land a_i \le k\}$
 	\begin{equation*}
 		S(n, k) = \begin{cases}
-			S(n - a_i, a_{i - 1}) \cup \{a_i\} & \max(a_i) \le k \\
+			S(n - a_i, a_{i - 1}) \cup \{a_i\} & \max(\{a_i \in A\ |\ a_i \le k\}) \\
 			\emptyset & k = 0 \lor n = 0
 		\end{cases}
 	\end{equation*}
