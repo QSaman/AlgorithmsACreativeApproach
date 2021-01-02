@@ -433,5 +433,7 @@ int main()
 		t_1s_1 & t_2s_2^\prime & t_3s_1 & \dots & t_{2^i}s_2^\prime & t_1s_3 & \dots & t_{2^{i - 1}}s_m \\
 		t_{2^{i - 1}}s_m^\prime & t_{2^{i - 2}}s_{m - 1} & t_{2^{i - 3}}s_m^\prime & \dots &t_1s_{m}^\prime & t_{2^i}s_{m - 1}^\prime & \dots & t_1s_1^\prime
 	\end{matrix}
-\end{equation*}	
+\end{equation*}
+	For finding the codes that differ in exactly $k - i$ bits, $1 \le i \le k - 1$. If $i = k - 1$, $n = 2^{i - 1}m$. Since $m = \lceil \frac{n}{2^i} \rceil$, $m = \lceil \frac{n}{2^{k - 1}} \rceil = 2$ which is gray code algorithm itself.
+	\par Also note that if $n \mod 2^i \ne 0$, then the last code is not $t_1s_1^\prime$, so the codes are not closed. This is the general form of gray codes when $n$ is odd. We can say, if $n$ is a multiple of $2^i$, then we can find gray codes with exactly $k - i$ different bits that is closed.
 \end{document}
