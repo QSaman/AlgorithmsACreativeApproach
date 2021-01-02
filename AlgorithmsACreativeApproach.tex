@@ -401,7 +401,7 @@ int main()
 		\end{split}
 	\end{equation*}
 	\paragraph{Exercise 24}
-	Assume $k = \lceil \log_2 n \rceil$. For $k$ we can only have $n = 2$. But for $k - 1$, we can create $n$ objects. Suppose $n = 2m$. We use gray code algorithm to create $s_1, s_2, \dots, s_m$. It's obvious $s_i$ has $k - 1$ bits. We define $s_i^\prime$ as the complement of $s_i$ (each bit is flipped). Then we can extend it as follow:
+	Assume $k = \lceil \log_2 n \rceil$. For $k$ we can only have $n = 2$. But for $k - 1$, we can create $n$ objects. Suppose $n = 2m$. We use gray code algorithm to create $s_1, s_2, \dots, s_m$. It's obvious $s_i$ has $k - 1$ bits. We define $s_i^\prime$ as the complement of $s_i$ (each bit is flipped). If $s_i$ and $s_{i + 1}$ differ only on 1 bit, then $s_i^\prime$ and $s_{i + 1}$ differ on $k - 1$ bits. Based on these facts we have:
 	\begin{equation*}
 		\begin{split}
 			0&s_0\\
