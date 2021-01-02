@@ -308,9 +308,8 @@ int main()
 	
 	\paragraph{Exercise 17}
 	
-	For $n = 3$ it's correct. We need to prove adding 1 line, increase the number of triangles by at least 1. Suppose it's true for $n$ lines. Now consider line $n + 1$. If we remove line $n$, we can use hypothesis so line $n + 1$ create at least one triangle. Consider one of them and we call it $T$. If we add line $n$ again there are three cases:
+	For $n = 3$ it's correct. We need to prove adding 1 line, increase the number of triangles by at least 1. Suppose it's true for $n$ lines. Now consider line $n + 1$. If we remove line $n$, we can use hypothesis so line $n + 1$ create at least one triangle. Consider one of them and we call it $T$. If we add line $n$ again there are two cases:
 	\begin{enumerate}
-		\item line $n$ creates an edge of $T$. So we are done
 		\item Line $n$ does not cross triangle $T$. So line $n + 1$ creates at least  one triangle.
 		\item Line $n$ crosses triangle $T$. Note that since lines are in general positions, when a line crosses a triangle, it intersects with exactly two edges of triangle. There are two cases
 		\begin{enumerate}
@@ -318,5 +317,87 @@ int main()
 			\item Line $n$ intersects line $n + 1$ outside $T$. So $n$ crosses two edges of $T$ that $n + 1$ creates none of them. $T$ is not triangle anymore but it contains a smaller triangle $T^\prime$ which $n$ and two other lines that create $T$ also creates $T^\prime$. We call them $n^\prime$ and $n^{\prime\prime}$. If we remove $n^\prime$ or $n^{\prime\prime}$, Both $T$ and $T^\prime$ loses one edge. Based on hypothesis, line $n + 1$ should have another triangle $T^{\prime\prime}$ that neither $n^\prime$ nor $n^{\prime\prime}$ cross it.
 		\end{enumerate}
 	\end{enumerate}
+	\paragraph{Exercise 23}
+	This is \href{https://en.wikipedia.org/wiki/Pick's_theorem}{Pick's theorem}. Since base case is more complicated we prove it later! Suppose the theorem is true for polygon $P$ and triangle $T$ which only shares 1 edge with it. We want to prove it's also true for $PT$. In other words, since we can triangulate every simple polygon, we create $PT$ just by adding $T$ to $P$. Suppose $P$ and $T$ share $C$ boundary points on that common edge (including two vertices). So we can calculate the boundary points of $PT$:
+	\begin{equation*}
+		\begin{split}
+			p_{pt} &= p_{p} + p_{t} - 2C + 2 \\
+			\implies p_{p} + p_{t} &= p_{pt} + 2C - 2 \\
+		\end{split}
+	\end{equation*}
+	We can also calculate its interior points:
+	\begin{equation*}
+		\begin{split}
+			q_{pt} &= q_{p} + q_{t} + C - 2 \\
+			\implies q_{p} + q_{t} &= q_{pt} - C + 2
+		\end{split}
+	\end{equation*}
+	Now we can calculate the areas of $PT$:
+	\begin{equation*}
+		\begin{split}
+			A_{pt} &= A_p + A_t \\
+			&= \frac{p_p}{2} + q_p - 1 + \frac{p_t}{2} + q_t - 1 \\
+			&= \frac{p_p + p_t}{2} + q_p + q_t - 2 \\
+			&= \frac{p_{pt} + 2C - 2}{2} + q_{pt} - C + 2 - 2 \\
+			&= \frac{p_{pt}}{2} + q_{pt} - 1
+		\end{split}
+	\end{equation*}
+	So the formula is also correct for $PT$. Since for an arbitrary polygon, we remove a triangle that shares an edge with it in each step, the base case is a triangle. So we need to prove this theorem is true for all triangles. We prove it in multiple steps. First note the following facts:
+	\begin{enumerate}
+		\item we can break every rectangle into two right triangles. Those two triangles share exactly two edges with the rectangle.
+		\item We can break every rectangle into one triangle which is not necessary right and two right triangles.
+	\end{enumerate}
+	First we need to prove it for rectangles. We assume the theorem is true for all rectangles $n \times m$ in which $n \le N$ and $m \le M$. We want to prove it also correct for $N \times M +1$ and $N + 1 \times M$. The base case is a unit square which is trivial. Now consider rectangle $R = N \times M + 1$. We can consider it as two rectangles $R_1 = N \times M$ and $R_2 = N \times 1$. Based on hypothesis the formula is correct for $T_1$ and $T_2$. Assume $T1$ and $T2$ has $C$ boundary points in common.
 	
+	\begin{equation*}
+		\begin{split}
+			p_r &= p_{r_1} + p_{r_2} -2C + 2 \\
+			\implies p_{r_1} + p_{r_2} &= p_r + 2C - 2 \\
+			q_r &= q_{r_1} + q_{r_2} + C - 2 \\
+			\implies q_{r_1} + q_{r_2} &= q_r - C + 2
+		\end{split}
+	\end{equation*}
+	So we have
+	\begin{equation*}
+		\begin{split}
+			A_r &= A_{r_1} + A_{r_2} \\
+			&= \frac{p_{r_1} + p_{r_2}}{2} + q_{r_1} + r_{r_2} - 2 \\
+			&= \frac{p_r}{2} + q_r - 1
+		\end{split}
+	\end{equation*}
+	Similarly we can break $N + 1 \times M$ into $T_1 = N \times M$ and $T_2 = 1 \times M$ and prove it.
+	\par Now we know it's true for all rectangles, we want to prove it for all right triangles that share exactly two edges with surrounding rectangle. As mentioned before we can break every rectangle $R$ into two right triangles $T_1$ and $T_2$. Assume those two triangles have $C$ common boundary points:
+	\begin{equation*}
+		\begin{split}
+			p_r &= p_{t_1} + p_{t_2} - 2C + 2 \\
+			q_r &= q_{t_1} + q_{t_2} + C - 2 \\
+		\end{split}
+	\end{equation*}
+	\begin{equation*}
+		\begin{split}
+			A_{t_1} = A_{t_2} &= \frac{A_r}{2} \\
+			&= \frac{\frac{p_r}{2} + q_r - 1}{2} \\
+			&= \frac{\frac{p_{t_1} + p_{t_2} - 2C + 2}{2} + q_{t_1} + q_{t_2} + C - 2 - 1}{2} \\
+			&= \frac{\frac{p_{t1} + p_{t_2}}{2} + q_{t_1} + q_{t_2} - 2}{2} \\
+			&= \frac{\underbrace{\frac{p_{t_1}}{2} + q_{t_1} - 1}_{A_{t_1}} + \underbrace{\frac{p_{t_2}}{2} + q_{t_2} - 1}_{A_{t_2}}}{2}
+		\end{split}
+	\end{equation*}
+	Now we need to prove the theorem is correct for case 2 which have 3 triangles. As mentioned before we can break rectangle $R$ into two right triangles $T_1$ and $T_2$ that shares two edges with $R$ and triangle $T$ which is not necessary right and shares 1 edge with $T$. Assume $T_1$ and $T$ have $C_1$ common boundary points. Also assume $T_2$ and $T$ have $C_2$ boundary points:
+	\begin{equation*}
+		\begin{split}
+			p_r &= p_{t_1} + p_{t_2} + p_t - 2C_1 - 2C_2 + 2 \\
+			\implies p_r - p_{t_1} - p_{t_2} &= p_t - 2C_1 - 2C_2 + 2 \\
+			q_r &= q_{t_1} + q_{t_2} + q_t + C_1 - 2 + C_2 - 1 \\
+			\implies q_r - q_{t_1} - q_{t_2} &= q_t + C_1 + C_2 - 3
+		\end{split}
+	\end{equation*}
+	\begin{equation*}
+		\begin{split}
+			A_t &= A_r - A_{t_1} - A_{t_2} \\
+			&= \frac{p_r}{2} + q_r - 1 - \frac{p_{t_1}}{2} - q_{t_1} + 1 - \frac{p_{t_2}}{2} - q_{t_2} + 1 \\
+			&= \frac{p_r - p_{t_1} - p_{t_2}}{2} + q_r - q_{t_1} - q_{t_2} + 1 \\
+			&= \frac{p_t - 2C_1 - 2C_2 + 2}{2} + q_t + C_1 + C_2 - 3 + 1 \\
+			&= \frac{p_t}{2} + q_t - 1
+		\end{split}
+	\end{equation*}
 \end{document}
