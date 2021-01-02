@@ -401,18 +401,27 @@ int main()
 		\end{split}
 	\end{equation*}
 	\paragraph{Exercise 24}
-	Assume $k = \lceil \log_2 n \rceil$. For $k$ we can only have $n = 2$. But for $k - 1$, we can create $n$ objects. Suppose $n = 2m$. We use gray code algorithm to create $s_1, s_2, \dots, s_m$. It's obvious $s_i$ has $k - 1$ bits. We define $s_i^\prime$ as the complement of $s_i$ (each bit is flipped). If $s_i$ and $s_{i + 1}$ differ only on 1 bit, then $s_i^\prime$ and $s_{i + 1}$ differ on $k - 1$ bits. Based on these facts we have:
+	Assume $k = \lceil \log_2 n \rceil$. For $k$ we can only have $n = 2$. But for $k - 1$, we can create $n$ objects. Suppose $n = 2m$. We use gray code algorithm to create $s_1, s_2, \dots, s_m$. It's obvious $s_i$ has $k - 1$ bits. We define $s_i^\prime$ as the complement of $s_i$ (each bit is flipped). If $s_i$ and $s_{i + 1}$ differ only in 1 bit, then $s_i$ and $s_{i + 1}^\prime$ differ in $k - 1$ bits. Based on these facts we can extend it to $n$. On the left we assume $m$ is even and on the right it's odd:
+
 	\begin{equation*}
-		\begin{split}
-			0&s_0\\
-			1&s_0^\prime \\
-			0&s_1\\
-			1&s_1^\prime \\
-			&\vdots \\
-			0&s_m \\
-			1&s_m^\prime
-		\end{split}
+	\begin{matrix}
+		0s_1 & 0s_1\\
+		1s_2^\prime & 1s_2^\prime \\
+		0s_3 & 0s_3\\
+		1s_4^\prime & 1s_4^\prime \\
+		\vdots & \vdots \\
+		0s_{m - 1} & 1s_{m - 1}^\prime \\
+		1s_m^\prime & 0s_m \\
+		 & \\
+		1s_m & 0s_m^\prime \\
+		0s_{m - 1}^\prime & 1s_{m - 1}\\
+		\vdots & \vdots \\
+		1s_4 & 1s_4\\
+		0s_3^\prime & 0s_3^\prime \\
+		1s_2 & 1s_2\\
+		0s_1^\prime & 0s_1^\prime
+	\end{matrix}
 	\end{equation*}
-	So all the bits of $0s_i$ and $1s_i^\prime$ differ ($k$ bits in total). But for $1s_i^\prime$ and $0s_{i + 1}$ only $k - 2 + 1 = k - 1$ bits differ.
-	\par Note that adding a new bit is necessary. To make sure we avoid duplication we must use $1s_i^\prime$ and not $0s_i^\prime$. For an example consider $n = 8$.
+	
+	Note that adding a new bit is necessary. To make sure we avoid duplication we must use $1s_i^\prime$ and not $0s_i^\prime$. For an example consider $n = 8$.
 \end{document}
