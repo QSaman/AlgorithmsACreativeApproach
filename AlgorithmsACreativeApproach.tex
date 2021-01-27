@@ -474,7 +474,27 @@ int main()
 	\begin{equation*}
 		\begin{split}
 			T(n) &= T(n - 1) + \sum_{i = 1}^{n - 1}{((i - 1) \times (n - i - 1) + 1)} \\
-			&= T(n - 1) + \sum_{i = 1}^{n - 1}{(ni - i^2 - n + 2)}
+			&= T(n - 1) + \sum_{i = 1}^{n - 1}{(ni - i^2 - n + 2)} \\
+			&= T(n - 1) + \sum_{i = 1}^{n - 1}{(n(i - 1))} - \sum_{i = 1}^{n - 1}{i^2} + \sum_{i = 1}^{n - 1}{2} \\
+			&= T(n - 1) + n \frac{(n - 2)(n - 1)}{2} -\frac{n (n - 1)(2n - 1)}{6} + 2(n - 1) \\
+			&= T(n - 1) + (n - 1)(\frac{n(n - 2)}{2} - \frac{n(2n - 1)}{6} + 2) \\
+			&= T(n - 1) + (n - 1)\frac{n^2 - 5n + 12}{6} \\
+			&= T(n - 1) + \frac{n^3}{6} - n^2 + \frac{17n}{6} - 2
+		\end{split}
+	\end{equation*}
+	So the answer is $T(n) = T(n - 1) + \frac{n^3}{6} - n^2 + \frac{17n}{6} - 2$. We can find an answer for this recursive function. Suppose $D(n) = \frac{n^3}{6} - n^2 + \frac{17n}{6} - 2$. $D(0) = -2$ but for $n \ge 1$, $D(n)$ is correct. Remember that $T(0) = 1$. Also according to this \href{https://en.wikipedia.org/wiki/Squared_triangular_number}{artichle} we have:
+	\begin{equation*}
+		\begin{split}
+			\sum_{i = 1}^{n}{i^3} &= (\sum_{i = 1}^{n}{i})^2 \\
+			&= (\frac{n(n + 1)}{2})^2 \\
+			&= \frac{n^4}{4} + \frac{n^3}{3} + \frac{n^2}{2}
+		\end{split}
+	\end{equation*}
+	So we have:
+	\begin{equation*}
+		\begin{split}
+			T(n) &= \sum_{i = 1}^{n}{(\frac{i^3}{6} - i^2 + \frac{17i}{6} - 2)} + 1 \\
+			&= \frac{n}{24}(n^3 - 6n^2 +23n - 18) + 1
 		\end{split}
 	\end{equation*}
 \end{document}
