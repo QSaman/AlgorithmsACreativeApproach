@@ -497,4 +497,23 @@ int main()
 			&= \frac{n}{24}(n^3 - 6n^2 +23n - 18) + 1
 		\end{split}
 	\end{equation*}
+	\paragraph{Exercise 30} Suppose it's true for a complete tree of height $h$. In other words $S(h) = 2^{h + 1} - h - 2$. We want to prove that $S(h + 1) = 2^{h + 2} - h - 3$. Based on definition a complete tree of height $h + 1$ consists of two complete trees of height $h$ plus a new root. We define the height of node $v$ as $H(v) = h - d(v)$. We know that $d(v)$ is the distance of $v$ from the root of tree. When we add a new root to the tree we have $H(v) = h + 1 - (d(v) + 1) = h - d(v)$. In other words, its height doesn't change. So we have:
+	\begin{equation*}
+		\begin{split}
+			S(h + 1) &= 2S(h) + h + 1 \\
+			&= 2(2^{h + 1} - h - 2) + h + 1 \\
+			&= 2^{h + 2} - h - 3
+		\end{split}
+	\end{equation*}
+	Now let's define another problem. Let's find the number of nodes in a complete tree of height $h$. We called it $V(h)$. We know that $V(0) = 1$. Based on definition we have:
+	\begin{equation*}
+		\begin{split}
+			V(h) &= 2V(h - 1) + 1 \\
+			&= 2(2(V(h - 2) + 1)) + 1 \\
+			&= \underbrace{2(2(2}_{2^3}(V(h - 3) + \underbrace{1}_{2^2}) + \underbrace{1}_{2^1})) + 1 \\
+			&= 2^h + \sum_{i = 0}^{h - 1}{2^i} \\
+			&= 2^h + \frac{1 \times 2^{h} - 1}{2 - 1} \\
+			&= 2^{h + 1} - 1
+		\end{split}
+	\end{equation*}
 \end{document}
