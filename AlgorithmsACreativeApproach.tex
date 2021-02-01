@@ -591,4 +591,45 @@ uint64_t fibonacci(int n) //O(logn)
   return res;
 }
 	\end{lstlisting}
+	\paragraph{Exercise 32} For simplicity $z = n^2 - m(n + 1) + 2n + m^2$. We prove this in two steps:
+	\begin{enumerate}
+		\item We assume inequality is true for $m$ and using that we prove it's correct for $m + 1$. For the base case $m = 1$ we have $n^2 -(n + 1) + 2n + 1 = n^2 + n \le n^2 + n$. We assume $z \le n^2 + n$. Now consider $m + 1$:
+		\begin{equation*}
+			\begin{split}
+				&n^2 - (m + 1)(n + 1) + 2n + (m + 1)^2 \le n^2 + n \\
+				\implies&n^2 - m(n + 1) - n - 1 + 2n + m^2 + 2m + 1 \le n^2 + n \\
+				\implies&z + 2m - n \le n^2 + n \\
+				\implies&2m - n \le 0 \\
+				\implies&m \le \frac{n}{2} \\
+				&= \lfloor \frac{n}{2} \rfloor
+			\end{split}
+		\end{equation*}
+		So the inequality is true for $1 \le m \le \lfloor \frac{n}{2} \rfloor$
+		\item We assume inequality is true for $m$ and using that we prove it's correct for $m - 1$. For the base case $m = n$ we have $n^2 - n(n + 1) + 2n + n^2 = n^2 -n^2 - n + 2n + n^2 = n^2 + n$. We assume $z \le n^2 + n$. Now consider $m - 1$:
+		\begin{equation*}
+			\begin{split}
+				&n^2 - (m - 1)(n + 1) + 2n + (m - 1)^2 \le n^2 + n \\
+				\implies &n^2 -m(n + 1) + n + 1 + 2n + m^2 - 2m + 1 \le n^2 + n \\
+				\implies&z -2m + n + 2 \le n^2 + n \\
+				\implies&-2m + n + 2 \le 0 \\
+				\implies &m \ge \lceil \frac{n + 2}{2} \rceil
+			\end{split}		
+		\end{equation*}		
+	\end{enumerate}
+	Note that $n$ is an integer. To cover the edge case $\frac{n}{2}$:
+	\begin{enumerate}
+		\item $n = 2k$: For the first induction $m \le \frac{2k}{2} = k$. For the second induction $m \ge \frac{2k + 2}{2} = k + 1$. So we covered $1 \le m \le n$.
+		\item $n = 2k + 1$: For the first induction $m \le \frac{2k + 1}{2} = k + \frac{1}{2} = k$. For the second induction $m \ge \frac{2k + 3}{2} = \frac{2k + 2 + 1}{2} = k + 1 + \frac{1}{2} = k + 2$. As you can see when $n$ is odd, the inductions don't cover $k + 1$. So we need to consider this special case. Based on first induction we know $z = n^2 - k(n + 1) + 2n + k^2 \le n^2 + n$:
+		\begin{equation*}
+			\begin{split}
+				&n^2 - (k + 1)(n + 1) + 2n + (k + 1)^2 \le n^2 + n \\
+				\implies&n^2 - k(n + 1) - n - 1 + 2n + k^2 + 2k + 1 \le n^2 + n \\
+				\implies &z + 2k - n \le n^2 + n \\
+				\implies &2k - n \le 0 \\
+				\implies &k \le \frac{n}{2} \\
+				\implies &k \le \frac{2k + 1}{2} \\
+				\implies &k \le k + \frac{1}{2} 
+			\end{split}
+		\end{equation*}
+	\end{enumerate}
 \end{document}
