@@ -516,4 +516,79 @@ int main()
 			&= 2^{h + 1} - 1
 		\end{split}
 	\end{equation*}
+	\paragraph{Exercise 31} We assume $F(2k + 1) = {F(k)^2} + {F(k + 1)}^2$ is correct for $k \le n$. We know that $2k + 1$ is an odd number. Let's find the formula for $F(2k)$. We know that $F(2k + 1) = F(2k) + F(2k - 1)$. So we have:
+	\begin{equation*}
+		\begin{split}
+			F(2k) &= F(2k + 1) - F(2k - 1) \\
+			&= {F(k)}^2 + {F(k + 1)}^2 - ({F(k - 1)}^2 + {F(k)}^2) \\
+			&= F(k +1)^2 - F(k - 1)^2
+		\end{split}
+	\end{equation*}	
+	So based on hypothesis for $1 \le k \le n$ (we assume $F(0) = 0$):
+	\begin{equation*}
+		\boxed{
+		\begin{split}
+			F(2k) &= F(k +1)^2 - F(k - 1)^2 \\
+			F(2k + 1) &= {F(k)^2} + {F(k + 1)}^2
+		\end{split}
+		}
+	\end{equation*}
+	For $k = 1$ it's trivial. Now we want to prove:
+	\begin{equation*}
+		\boxed{
+			\begin{split}
+				F(2n + 2) &= F(n + 2)^2 - F(n)^2 \\
+				F(2n + 3) &= {F(n + 1)^2} + {F(n + 2)}^2
+			\end{split}
+		}
+	\end{equation*}
+	Let's start with $F(2n + 2)$. We know that $F(n + 2)^2 = (F(n + 1) + F(n))^2$. So $F(n)^2 + F(n + 1)^2 = F(n + 2)^2 - 2F(n)F(n + 1)$:
+	\begin{equation*}
+		\begin{split}
+			F(2n + 2) &= F(2n + 1) + F(2n) \\
+			&= F(n)^2 + F(n + 1)^2 + F(n + 1)^2 - F(n - 1)^2 \\
+			&= F(n + 2)^2 - 2F(n)F(n + 1) + F(n + 1)^2 - F(n - 1)^2 \\
+			&= F(n + 2)^2 + \underbrace{F(n + 1)}_{F(n) + F(n - 1)}(-2F(n) + \underbrace{F(n + 1)}_{F(n) + F(n - 1)}) - F(n - 1)^2 \\
+			&= F(n + 2)^2 + (F(n - 1) + F(n))(F(n - 1) - F(n)) - F(n - 1)^2 \\
+			&= F(n + 2)^2 + F(n - 1)^2 - F(n)^2 - F(n - 1)^2 \\
+			&= F(n + 2)^2 - F(n)^2
+		\end{split}
+	\end{equation*}
+	Now we can easily prove $F(2n + 3)$:
+	\begin{equation*}
+		\begin{split}
+			F(2n + 3) &= F(2n + 2) + F(2n + 1) \\
+			&= F(n + 2)^2 - F(n)^2 + F(n)^2 + F(n + 1)^2 \\
+			&= F(n + 1)^2 + F(n + 2)^2
+		\end{split}
+	\end{equation*}
+	Note that based on this equation we can solve Fibonacci numbers in $O(\log_2{n})$:
+	\begin{lstlisting}[language=c++, frame=single]
+unordered_map<int, uint64_t> calc;
+
+uint64_t fibonacci(int n) //O(logn)
+{
+  if (n == 0 || n == 1)
+    return n;
+  if (n == 2)  //To avoid stack overflow when n = 2
+    return 1;
+  auto& res = calc[n];
+  if (res != 0)
+    return res;
+  int k = n / 2;
+  if ((n % 2) == 0)
+  {
+    auto res1 = fibonacci(k + 1);
+    auto res2 = fibonacci(k - 1);
+    res = res1 * res1 - res2 * res2;
+  }
+  else
+  {
+    auto res1 = fibonacci(k);
+    auto res2 = fibonacci(k + 1);
+    res = res1 * res1 + res2 * res2;
+  }
+  return res;
+}
+	\end{lstlisting}
 \end{document}
