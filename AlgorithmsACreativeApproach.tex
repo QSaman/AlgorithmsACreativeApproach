@@ -632,4 +632,11 @@ uint64_t fibonacci(int n) //O(logn)
 			\end{split}
 		\end{equation*}
 	\end{enumerate}
+
+	\paragraph{Exercise 33}
+	For more information read this CodeForces \href{https://codeforces.com/blog/entry/80932}{article} and this Wikipedia \href{https://en.wikipedia.org/wiki/Ear_decomposition}{article}.
+	\par We choose the number of vertices as induction parameters. If $|V| = 1$ we don't have any edges so it's trivial. Suppose we know how to partition the edges of every undirected connected graph with less than $V$ vertices, which doesn't have bridge edges, into ear decomposition. Now consider an arbitrary connected undirected graph $G = (V, E)$. We choose an arbitrary vertex $u$. Now consider all edges that $u$ is one of the endpoints. In other words consider $(u, v_{i_k}) \in E$ for all $1 \le k \le d$. We know that every edge in this graph should be in a cycle; otherwise by removing that edge we disconnect the graph which means we have a bridge which is contradiction. Therefore there are $d$ cycles in $G$ that vertex $u$ is on those cycles. We can consider each of these cycles as ear. So we put cycle $1$ in $E_1$. We add cycle $k$ for all $2 \le k \le d$ into $E_k$ if all its edges aren't in $M = E_1 \cup \dots \cup E_{k - 1}$ otherwise we add a path of that cycle which has only edges that aren't in $M$. Now we can remove vertex $u$ and all those edges $(u, v_{i_k})$. We may introduce bridges.
+	\par Consider bridge $(x, y)$. Since in presence of $u$, $(x, y)$ is not a bridge, it means there is a path $x \to v \to y$ which doesn't have edge $(x, y)$. Adding $(x, y)$ to that path, makes it a cycle that includes $u$. So bridge $(x, y)$ shoulde be in one of $E_1, \dots, E_d$. Note that bridge $(x, y)$ is only in one cycle. So removing $(x, y)$ doesn't introduce new bridges.
+	\par In summery we remove vertex $u$ and all its edges as well as all bridges that are created by $u$ removal.
+	\par Now we have connected components $C_1, \dots, C_n$. Each of them doesn't have any bridges. We use the hypothesis to find ear decomposition for them. Suppose $C_i$ has an ear $e$. $e$ has some edges that exist in $N = E_1 \cup \dots \cup E_d$. We can remove those edges from $e$ so we break $e$ into $e_1, \dots, e_k$ which the endpoints of all them are in $N$.
 \end{document}
