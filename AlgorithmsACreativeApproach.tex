@@ -638,4 +638,64 @@ uint64_t fibonacci(int n) //O(logn)
 	\par We choose the number of vertices as induction parameters. If $|V| = 1$ we don't have any edges so it's trivial. Suppose we know how to partition the edges of every undirected connected graph with less than $V$ vertices, which doesn't have bridge edges, into ear decomposition. Now consider an arbitrary connected undirected graph $G = (V, E)$. We choose an arbitrary vertex $u$. We know that every edge in this graph should be in a cycle; otherwise by removing that edge we disconnect the graph which means we have a bridge which is contradiction. We remove vertex $u$ and all its edges. We may introduce bridges.
 	\par Consider bridge $(x, y)$. Since in presence of $u$, $(x, y)$ is not a bridge, it means there is a path $x \to u \to y$ which doesn't have edge $(x, y)$. Adding $(x, y)$ to that path, makes it a cycle. Note that bridge $(x, y)$ is only in one cycle. So removing $(x, y)$ doesn't introduce new bridges. We call the set of all those edges that by $u$ removal become bridges, $D$.
 	\par In summery we remove vertex $u$ and all edges in $D$. Now we have connected components $C_1, \dots, C_n$. Each of them doesn't have any bridges. We use the hypothesis to find ear decomposition for them. Now we add vertex u and its edges as well as those edges in $D$. Assume the degree of vertex $u$ is $d$. So there are cycles $c_1, \dots, c_d$ that include $u$. All edges in $D$ are in these cycles. Now consider $c_i$. If all edges of $c_i$ are not in previous ears, We add $c_i$ as a new ear otherwise we break $c_i$ into one or more paths. Each of these paths have edges that aren't in previous ears and its endpoints belong to previous ears.
+	
+	\chapter{Algorithms Involving Sequences and Sets}
+	\section{String Matching}
+	Suppose we have $A = a_0 a_1 \dots a_{n - 1}$ and $B = b_0 b_1 \dots b_{m - 1}$ are two strings. We assume $m \le n$. We want to determine whether $B$ is a substring of $A$. We define $next[i] = j$ for all $0 \le i \le m - 1$ as the maximum index $j$ such as the first $j + 1$ characters should be equal to the last $j + 1$ ones:
+	\begin{equation*}
+		next[i] = \begin{cases}
+			\max\limits_{j = 0}^{i - 2}{(j)} \implies b_0 b_1 \dots b_j = b_{i - j - 1} b_{i - j} \dots b_{i - 1} & i \ge 2 \\
+			-1 & i = 1 \lor \text{j doesn't exist} \\
+			-2 & i = 0
+		\end{cases}
+	\end{equation*}
+	Note that the minimum index of suffix is $x = i - j - 1$ which is calculated by $(i - 1 - x) + 1 = (j - 0) + 1$. The maximum index for prefix string ($b_0 \dots b_j$) can be $i - 2$ and the minimum index for postfix string ($b_{i - j - 1} \dots b_{i - 1}$) can be $1$.
+	\par Finding prefix and postfix strings of $B$ is like finding substring $Q = B[1..m - 2]$ in $P = B[0..m-2]$. So $P$ represents prefix and $Q$ represents suffix.
+	\par We use mathematical induction to calculate $next[i]$. The base case is $i = 1$ which is trivial. We assume $next[k]$ is true for all $k < i$. Now consider $next[i]$. Assume $j = next[i - 1]$. So we have:
+	\begin{equation*}
+		\boxed{
+		b_0 \dots b_j = b_{i - j - 2} \dots b_{i - 2}
+		}
+	\end{equation*}
+	There are two scenarios:
+	\begin{enumerate}
+		\item $b_{j + 1} = b_{i - 1}$ In that case $next[i] = next[i - 1] + 1 = j + 1$ because $b_0 \dots b_j b_{j + 1} = b_{i - j - 2} \dots b_{i - 2} b_{i - 1}$
+		\item $b_{j + 1} \ne b_{i - 1}$ In that case we cannot extend $next[i - 1]$ by 1. Suppose $k = next[j + 1]$ which implies $b_0 \dots b_k = b_{j - k} \dots b_j$. According to above equation in box $b_j = b_{i - 2}, b_{j - 1} = b_{i - 3}, \dots$ So we can say $b_0 \dots b_k = b_{i - k - 2} \dots b_{i - 2}$. This is like scenario 1. We need to compare $b_{k + 1}$ to $b_{i - 1}$ and if they are equal then $next[i] = next[j + 1] + 1 = k + 1$		
+	\end{enumerate}
+	The implementation of above algorithm:
+	\begin{lstlisting}[language=c++, frame=single]
+vector<int> calculateNext(const string& B)
+{
+  vector<int> next(B.length());
+  next[0] = -2;
+  next[1] = -1;
+  int i, j;
+  for (i = 2; i < B.length(); ++i)
+  {
+    j = next[i - 1] + 1;
+    for (; j >= 0 && B[j] != B[i - 1]; j = next[j] + 1);
+    next[i] = j;
+  }
+  return next;
+}
+
+int findSubstring(const string& A, const string& B)
+{
+  const auto next = calculateNext(B);
+  int i, j;
+  for (i = 0, j = 0; i < A.length() && j < B.length();)
+  {
+    if (A[i] == B[j])
+      ++i, ++j;
+    else if ((j = next[j] + 1) < 0)
+      ++i, j = 0;
+  }
+  if (j == B.length())
+    return i - B.length();
+  return -1;
+}
+	\end{lstlisting}
+	Notice the edge cases. For example if $A=ababc$ and $B=abc$. When $i = 2$ and $j = 2$, we know that $A[2] \ne B[2]$ so we must use $next[2] = -1$ in the next iteration by comparing $A[2]$ with $B[next[2] + 1] = B[0]$. In other words we shouldn't increase $i$ in this iteration. On the other hand, if $A=abfoo$ and $B=abc$, when $i = 2$ and $j = 2$, in the next iteration we must compare $A[2]$ with $B[next[2] + 1] = B[0]$. Like previous example we shouldn't increase $i$ in this iteration. But in the next iteration $A[2] \ne B[0]$ and $next[0] = -2$. So we must increase $i$ and set $j=0$.
+	\par Let's consider $findSubstring$. When $A[i] = B[j]$, we increase both $i$ and $j$ so we do comparison for $A[i]$ just once. If $A[i] \ne B[j]$, we must compare $A[i]$ more than once. Doing $j = next[j] + 1$ can be repeated at most $j$ times. So we can say we do comparison for $A[i]$ at most $j$ times. But $B[0..j]$ causes we forward $A$, $j$ times to reach $A[i]$. We can use amortized analysis and put cost $2$ for going foward in $A$ and put cost $0$ for going backward in $B$. So the total running time of $finSubstring$ is $O(2n) = O(n)$.
+	\par Now consider $calculateNext$. When we want to calculate $next[i]$. We know that $j = next[i - 1] + 1$; if $B[i - 1] = B[j]$ we do comparison for $B[i - 1]$ only once otherwise the number of comparisons for $B[i - 1]$ is more than once and at most $j$ times. If $j \ge 0$ we can say there are $j + 1$ indices less than $i$ such as $k$ that for calculating $next[k]$ we went forward in $B$ with cost $1$. So we can assign cost $2$ for going forward and cost $0$ for going backward (when $B[i - 1] \ne B[j]$). Note that if we consume all $j$ ($j < 0$), the indices greater than $i$ don't use this $j$. So the running time is $O(2m) = O(m)$.
 \end{document}
