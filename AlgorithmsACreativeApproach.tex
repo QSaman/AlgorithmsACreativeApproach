@@ -25,7 +25,26 @@
 
 \title{Solutions of Introduction to Algorithms: A Creative Approach}
 \author{Saman Saadi}
-\date{} 
+\date{}
+
+\lstdefinestyle{customcpp}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C++,
+	frame=single,
+	showstringspaces=false,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{black},
+	stringstyle=\color{orange},
+	emph={int,char,double,float,unsigned, auto},
+	emphstyle={\color{blue}}
+}
+
+\lstset{escapechar=@,style=customcpp}
 
 \begin{document}
 	\frontmatter
@@ -90,7 +109,7 @@
 		\end{itemize}
 	\end{itemize}
 	The implementation in C++:
-	\begin{lstlisting}[language=c++, frame=single]
+	\begin{lstlisting}
 string str;
 void grayCodes(size_t index, size_t listLength)
 {
@@ -168,7 +187,7 @@ int main()
 	\end{equation*}
 	So for $\lceil \log_2{n} \rceil$ we are looking for the maximum $2^i$ which is smaller than $n$. When we find it the answer is $i + 1$. In each iteration as long as $2^i < n$, we can assume the result is at least $i + 1$:
 	
-	\begin{lstlisting}[language=C++, frame=single]
+	\begin{lstlisting}
   int ceilLogarithm(int n)
   {
     int r = 0;    
@@ -179,7 +198,7 @@ int main()
 	\end{lstlisting}
 	For calculating $\lfloor \log_2{n} \rfloor$ we are looking for the minimum $2^i$ which is bigger than $n$. When we find it the answer is $i - 1$. In each iteration as long as $2^i \le n$, we can assume the result is at least $i$:
 	
-	\begin{lstlisting}[language=C++, frame=single]
+	\begin{lstlisting}
   int floorLogarithm(int n)
   {
     int r = 0;    
@@ -563,7 +582,7 @@ int main()
 		\end{split}
 	\end{equation*}
 	Note that based on this equation we can solve Fibonacci numbers in $O(\log_2{n})$:
-	\begin{lstlisting}[language=c++, frame=single]
+	\begin{lstlisting}
 unordered_map<int, uint64_t> calc;
 
 uint64_t fibonacci(int n) //O(logn)
@@ -663,7 +682,7 @@ uint64_t fibonacci(int n) //O(logn)
 		\item $b_{j + 1} \ne b_{i - 1}$ In that case we cannot extend $next[i - 1]$ by 1. Suppose $k = next[j + 1]$ which implies $b_0 \dots b_k = b_{j - k} \dots b_j$. According to above equation in box $b_j = b_{i - 2}, b_{j - 1} = b_{i - 3}, \dots$ So we can say $b_0 \dots b_k = b_{i - k - 2} \dots b_{i - 2}$. This is like scenario 1. We need to compare $b_{k + 1}$ to $b_{i - 1}$ and if they are equal then $next[i] = next[j + 1] + 1 = k + 1$		
 	\end{enumerate}
 	The implementation of above algorithm:
-	\begin{lstlisting}[language=c++, frame=single]
+	\begin{lstlisting}
 vector<int> calculateNext(const string& B)
 {
   vector<int> next(B.length());
