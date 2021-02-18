@@ -656,7 +656,126 @@ uint64_t fibonacci(int n) //O(logn)
 	For more information read this CodeForces \href{https://codeforces.com/blog/entry/80932}{article} and this Wikipedia \href{https://en.wikipedia.org/wiki/Ear_decomposition}{article}.
 	\par We choose the number of vertices as induction parameters. If $|V| = 1$ we don't have any edges so it's trivial. Suppose we know how to partition the edges of every undirected connected graph with less than $V$ vertices, which doesn't have bridge edges, into ear decomposition. Now consider an arbitrary connected undirected graph $G = (V, E)$. We choose an arbitrary vertex $u$. We know that every edge in this graph should be in a cycle; otherwise by removing that edge we disconnect the graph which means we have a bridge which is contradiction. We remove vertex $u$ and all its edges. We may introduce bridges.
 	\par Consider bridge $(x, y)$. Since in presence of $u$, $(x, y)$ is not a bridge, it means there is a path $x \to u \to y$ which doesn't have edge $(x, y)$. Adding $(x, y)$ to that path, makes it a cycle. Note that bridge $(x, y)$ is only in one cycle. So removing $(x, y)$ doesn't introduce new bridges. We call the set of all those edges that by $u$ removal become bridges, $D$.
-	\par In summery we remove vertex $u$ and all edges in $D$. Now we have connected components $C_1, \dots, C_n$. Each of them doesn't have any bridges. We use the hypothesis to find ear decomposition for them. Now we add vertex u and its edges as well as those edges in $D$. Assume the degree of vertex $u$ is $d$. So there are cycles $c_1, \dots, c_d$ that include $u$. All edges in $D$ are in these cycles. Now consider $c_i$. If all edges of $c_i$ are not in previous ears, We add $c_i$ as a new ear otherwise we break $c_i$ into one or more paths. Each of these paths have edges that aren't in previous ears and its endpoints belong to previous ears.
+	\par In summery we remove vertex $u$ and all edges in $D$. Now we have connected components $C_1, \dots, C_n$. Each of them doesn't have any bridges. We use the hypothesis to find ear decomposition for them. Now we add vertex u and its edges as well as those edges in $D$. Assume the degree of vertex $u$ is $d$. So there are cycles $c_1, \dots, c_d$ that include $u$. All edges in $D$ are in these cycles. Now consider $c_i$. If all edges of $c_i$ are not in previous ears (i.e. all edges are in $D$), We add $c_i$ as a new ear but we should start from another vertex other than $u$ to respect the conditions in the problem statements. If there is at least one edge that is not in previous ears, we break $c_i$ into one or more paths. Each of these paths have edges that aren't in previous ears and its endpoints belong to previous ears.
+	\par Now consider an undirected graph which may not be connected and it may has bridges. We want to find ears and bridges in this graph. To implement this we use $DFS$ to create $DFS$ forest. We choose the root of one of $DFS$ trees named $u$. We traverse all its back edges to find all cycles that include $u$ and add those edges that are not in previous ears to the current ear. When we finished with $u$, we try the next vertex in $DFS$ order.
+	\par Since the graph is undirected, $v \in G.adj[u]$ implies $u \in G.adj[v]$ which can make the implementation a little tricky.
+	
+	\begin{algorithm*}[h!]
+		\begin{algorithmic}[1]
+			\Function{Eear-Decomposition}{$G$}
+				\State \Call{Init}{$G$} \Comment{$O(V)$}
+				\ForAll{$u \in G.V$}
+					\If{$u.color == WHITE$} \Comment{$O(V)$}
+						\State Let $CC$ be a new connected component \Comment{$O(CCs)$}
+						\State $CC.V.clear()$
+						\State $CC.E = \emptyset$
+						\State \Call{DFS}{$G, u, CC$} \Comment{$O(E)$}
+						\State \Call{Find-Ears}{$CC, u$} \Comment{$O(V + E)$}
+						\State $G.CCs = G.CCs \cup CC$
+					\EndIf
+				\EndFor
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm*}
+	\FloatBarrier
+	\begin{algorithm*}[h!]
+		\begin{algorithmic}[1]		
+			\Function{Init}{$G$}
+				\ForAll{$u \in G.V$}
+					\State $u.color = WHITE$
+					\State $u.\pi = NIL$
+					\State $u.visited = False$ \Comment{belong to previous ears}
+				\EndFor
+				\State $G.CCs = \emptyset$ \Comment{connected components}		
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm*}	
+	\FloatBarrier
+	\begin{algorithm*}[h!]
+		\begin{algorithmic}[1]
+			\Function{DFS}{$G, u, CC$}
+				\State $u.color = GRAY$
+				\State $CC.V.insert(u)$ \Comment{In DFS order}
+				\ForAll{$v \in V.adj[u]$}
+					\State $CC.E = CC.E \cup \{(u, v)\}$
+					\State $CC.adj[u].insert(v)$
+					\If{$v.color == WHITE$}	\Comment{tree edge}
+						\State $v.\pi = u$
+						\State \Call{DFS}{$G, u, CC$}
+					\EndIf
+				\EndFor
+				\State $u.color = BLACK$
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm*}
+	\FloatBarrier
+	\begin{algorithm*}[h!]
+		\begin{algorithmic}[1]
+			\Function{Find-Ears}{$CC, u$}
+				\State $CC.bridges = \emptyset$
+				\ForAll{$(u, v) \in CC.E$}
+					\State $CC.bridges = CC.bridges \cup \{(u, v)\}$
+				\EndFor
+				\ForAll{$u \in CC.V$} \Comment{the list is in DFS order}
+					\ForAll{$v \in CC.adj[u]$}					
+						\State tree-edge = $u.\pi == v \lor v.\pi == u$
+						\State back-edge = tree-edge == $False$
+						\If{back-edge $\land (u, v) \in CC.bridges$}
+							\State Let $ear$ be a new ear
+							\State $ear.clear()$
+							\State $x = u$
+							\State $y = v$
+							\Repeat
+								\State $x.visited = True$
+								\State $ear.insert(x)$
+								\State $ear.insert(y)$
+								\State $CC.bridges = CC.bridges - \{(x, y), (y, x)\}$
+								\State $x = y$
+								\State $y = y.\pi$					
+							\Until{$x.ear = True$}
+							\State $CC.ears.insert(ear)$
+						\EndIf
+					\EndFor
+				\EndFor
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm*}
+	\FloatBarrier
+	\par Some notes from this Wikipedia \href{https://en.wikipedia.org/wiki/Ear_decomposition}{article}:
+	\begin{itemize}
+		\item An open ear decomposition or a proper ear decomposition is an ear decomposition in which the two endpoints of each ear after the first are distinct from each other
+		\item A graph is k-vertex-connected if the removal of any (k − 1) vertices leaves a connected subgraph. A graph is 2-vertex-connected if and only if it has an open ear decomposition.
+		\item If a graph is not 2-vertex-connected, there is at least one vertex that by removing it, the graph will become disconnected. such vertices are called \textbf{cut vertices} or \textbf{articulation points}
+		\item A graph is k-edge-connected if the removal of any (k − 1) edges leaves a connected subgraph. A graph is 2-edge-connected if and only if it has an ear decomposition
+	\end{itemize}
+	\textbf{cut vertices} or \textbf{articulation points} are those vertices which are on the endpoint of a cycle apart from $E_1$ or bridges.
+	\begin{algorithm*}[h!]
+		\begin{algorithmic}
+			\Function{Find-Cut-Verticies}{$G$}
+				\State \Call{Eear-Decomposition}{$G$}
+				\ForAll{$CC \in G.CCs$}
+					\State CC.cut-verticies = $\emptyset$
+					\ForAll{$ear \in \{CC.ears - \{CC.ears.front()\}\}$} \Comment{$O(V)$}
+						\State cyle = $ear.front() == ear.back()$
+						\If{cycle}
+							\State CC.cut-verticies = CC.cut-verticies $\cup\ ear.front()$
+						\EndIf
+					\EndFor
+					\State visited-bridges = $\emptyset$
+					\ForAll{$(u, v) \in CC.bridges \land (u, v) \notin\ $ visited-bridges} \Comment{$O(E)$}
+						\If{$CC.adj[u].size() > 1$} \Comment{$v \in CC.adj[u]$}
+							\State CC.cut-verticies = CC.cut-verticies $\cup\ u$
+						\EndIf
+						\If{$CC.adj[v].size() > 1$} \Comment{$u \in CC.adj[v]$}
+							\State CC.cut-verticies = CC.cut-verticies $\cup\ v$							
+						\EndIf
+						\State visited-bridges = visited-bridges $\cup\ \{(u, v), (v, u)\}$
+					\EndFor
+				\EndFor
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm*}
+	\FloatBarrier
 	
 	\chapter{Algorithms Involving Sequences and Sets}
 	\section{String Matching}
