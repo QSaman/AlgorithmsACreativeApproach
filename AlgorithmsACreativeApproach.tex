@@ -777,6 +777,14 @@ uint64_t fibonacci(int n) //O(logn)
 	\end{algorithm*}
 	\FloatBarrier
 	
+	\paragraph{Exercise 34}
+	See the textbook answer
+	
+	\paragraph{Exercise 35}
+	For $n = 1$ it's trivial. Suppose it's true for $n$. Now we want to prove it for $n + 1$. Let's analysis the induction hypothesis. Since we know how to create the graph with $|V| = 2n$ that has only one perfect matching, it means we have $n$ matches $\{(v_{i_1}, v_{j_1}), \dots ,(v_{i_n}, v_{j_n})\}$. We can partition the vertices into $X$ and $Y$ such that $X = \{v_{i_1}, \dots, v_{i_n}\}$ and $Y = \{v_{j_1}, \dots, v_{j_n}\}$.
+	\par Now consider $n + 1$. So $|V| = 2n + 2$ and $|E| = n^2 + 2n + 1$. We have two new vertices $u$ and $v$. We choose either $v$ or $u$. Let's assume we choose $u$. We add a new edge from $u$ to $v$. Then we add $n$ edges to all $v \in X$ and finally we add $n$ edges to all $v \in Y$. The new graph must have $(u, v)$ as a match and we use induction to choose the rest $n$ matches. This perfect match is unique; otherwise if we choose another new edge other than $(u, v)$, then we cannot match other vertices with $v$ because it only has one edge that goes to $u$.
+	\par In other words, the graph must have a vertex $u$ that has edges to all vertices and a vertex $v$ that only has one edge that goes to $u$.
+	
 	\chapter{Algorithms Involving Sequences and Sets}
 	\section{String Matching}
 	Suppose we have $A = a_0 a_1 \dots a_{n - 1}$ and $B = b_0 b_1 \dots b_{m - 1}$ are two strings. We assume $m \le n$. We want to determine whether $B$ is a substring of $A$. We define $next[i] = j$ for all $0 \le i \le m - 1$ as the maximum index $j$ such as the first $j + 1$ characters should be equal to the last $j + 1$ ones:
